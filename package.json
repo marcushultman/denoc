@@ -1,0 +1,25 @@
+{
+  "name": "denoc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "denoc": "./denoc.js"
+  },
+  "files": [
+    "denoc.js",
+    "read_files.js"
+  ],
+  "scripts": {
+    "test": "cd test && npm test"
+  },
+  "author": "marcushultman",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^14.11.8",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "minimatch": "^3.0.4"
+  }
+}
