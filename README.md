@@ -25,18 +25,18 @@ Add a `denoc` field to your `package.json`:
 
 | Field | Description |
 |---|---|
-| `outDir` | output directory where Deno compatible source files will be emitted |
-| `include` | Array of strings/globs for files and directories to be converted |
-| `exclude`  | Array of strings/globs that negates included files and directories (only used together with `include`). Import statements for these files will be skipped unless mapped to another file (see [Depenency mapping](#depenency-mapping)) |
-| `files` | Array of strings for files to be converted, used instead of `include` & `exclude` |
-| `skip` | Array of strings for package names of dependencies that will be skipped altogether (for example modules exporting objects available in the global scope) |
-| `map` | Dependency mapping (see [Depenency mapping](#depenency-mapping)) | 
-| `copy` | Array of strings for files to copy to `outDir` |
+| `outDir` | Output directory where Deno compatible source files will be emitted |
+| `include` | Array of files/dirs/globs of sources |
+| `exclude`  | Array of files/dirs/globs that negates `include`. Import statements for these files will be ignored unless mapped to another file (see [dependency mapping](#dependency-mapping)) |
+| `files` | Array of source files (use as an alternative for `include`/`exclude`) |
+| `skip` | Array of package names of dependencies that will be skipped altogether (for example modules exporting objects available in the Deno global scope) |
+| `map` | Dependency mapping (see [dependency mapping](#dependency-mapping)) | 
+| `copy` | Array of files to copy to `outDir` |
 
 
-### Depenency mapping
+### Dependency mapping
 
-Depency mapping is used to swap out Node.js implementations for Deno compatible versions with the same API. Local source files or node_module dependencies can be swapped out for other local source files or published Deno modules, in any combination, mix and match. Source files mentioned here will take precendence over `exclude`.
+Dependency mapping is used to swap out Node.js implementations for Deno compatible versions with the same API. Local source files or node_module dependencies can be swapped out for other local source files or published Deno modules, in any combination, mix and match. Source files mentioned here will take precendence over `exclude`.
 
 
 ## Comparison with `denoify`
