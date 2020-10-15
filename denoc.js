@@ -34,32 +34,27 @@ function findRoot(paths) {
   return path.dirname(paths[0]);
 }
 
-function mapDependency(prefix, id, suffix, map, relative) {
+function mapDependency(id, map, relative) {
   if (map[id].startsWith('http')) {
-    return `${prefix}${map[id]}${suffix}`;
+    return map[id];
   }
-  const replacement = path.relative(path.dirname(relative), map[id]);
-  return `${prefix}./${replacement}${suffix}`;
+  return `./${path.relative(path.dirname(relative), map[id])}`;
 }
 
-function reduceLine(lines, line, relative, { exclude, skip = [], map }) {
-  const match = line.match(/(^\s*import\s+.*["'])([\w\/\.]+)(["'];?)/);
-  if (!match) {
-    return [...lines, line];
-  }
-  const [, prefix, id, suffix] = match;
+function reduceLine(match, relative, { exclude, skip = [], map }) {
+  const [prefix, id, suffix] = match;
   if (id.startsWith('.')) {
     const file = path.join(path.dirname(relative), `${id}.ts`);
     if (map[file]) {
-      return [...lines, mapDependency(prefix, file, suffix, map, relative)];
+      return `${prefix}${mapDependency(file, map, relative)}${suffix}`;
     } else if (exclude && exclude.some(pattern => minimatch(file, pattern))) {
-      return lines;
+      return '';
     }
-    return [...lines, `${prefix}${id}.ts${suffix}`];
+    return `${prefix}${id}.ts${suffix}`;
   } else if (skip.includes(id)) {
-    return lines;
+    return '';
   } else if (map[id]) {
-    return [...lines, mapDependency(prefix, id, suffix, map, relative)];
+    return `${prefix}${mapDependency(id, map, relative)}${suffix}`;
   }
   throw new Error(`Unhandled dependency '${id}', add to "skip" or "map".`);
 }
@@ -68,7 +63,8 @@ async function denocFile (root, srcRoot, relative, config) {
   const srcFile = path.join(root, relative);
   const dstFile = path.join(root, config.outDir, path.relative(srcRoot, relative));
   const src = await fs.readFile(srcFile, 'utf-8');
-  const dst = src.split('\n').reduce((a, b) => reduceLine(a, b, relative, config), []).join('\n');
+  const importRegExp = /(import[^'"]*['"])(.*)(['"];\n)/g;
+  const dst = src.replace(importRegExp, (_, ...p) => reduceLine(p, relative, config));
   await fs.writeFile(dstFile, dst);
 }
 

@@ -1,7 +1,10 @@
 import * as os from 'os';
 import { btoa, atob } from './ignored';
 import nodeOrDeno from './node';
-import { deepStrictEqual, ok } from 'assert';
+import {
+  deepStrictEqual,
+  ok
+} from 'assert';
 import 'inspector';
 import 'path';
 
