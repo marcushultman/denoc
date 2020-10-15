@@ -19,6 +19,7 @@
       "assert": "https://deno.land/std@0.74.0/node/assert.ts",
       "src/node.ts": "src/deno.ts",
       "path": "src/path_deno.ts"
-    }
+    },
+    "copy": ["README.md"]
   }
 }

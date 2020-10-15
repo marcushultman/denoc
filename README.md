@@ -18,7 +18,8 @@ Add a `denoc` field to your `package.json`:
     "src/node1.ts": "src/deno1.ts"
     "src/node2.ts": "https://deno.land/x/deno2.ts",
     "crypto": "src/deno_crypto.ts",
-  }
+  },
+  "copy": ["README.md"],
 },
 ```
 
@@ -30,6 +31,7 @@ Add a `denoc` field to your `package.json`:
 | `files` | Array of strings for files to be converted, used instead of `include` & `exclude` |
 | `skip` | Array of strings for package names of dependencies that will be skipped altogether (for example modules exporting objects available in the global scope) |
 | `map` | Dependency mapping (see [Depenency mapping](#depenency-mapping)) | 
+| `copy` | Array of strings for files to copy to `outDir` |
 
 
 ### Depenency mapping

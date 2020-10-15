@@ -59,6 +59,18 @@ function reduceLine(match, relative, { exclude, skip = [], map }) {
   throw new Error(`Unhandled dependency '${id}', add to "skip" or "map".`);
 }
 
+async function copyFiles (root, config) {
+  if (!config.copy) {
+    return;
+  }
+  await Promise.all(config.copy.map(async file => {
+    const srcFile = path.join(root, file);
+    const dstFile = path.join(root, config.outDir, path.relative(root, file));
+    await fs.mkdir(path.dirname(dstFile), { recursive: true });
+    await fs.copyFile(srcFile, dstFile);
+  }));
+}
+
 async function denocFile (root, srcRoot, relative, config) {
   const srcFile = path.join(root, relative);
   const dstFile = path.join(root, config.outDir, path.relative(srcRoot, relative));
@@ -74,7 +86,10 @@ async function renderFiles(root, files, config) {
     process.exit(0);
   }
   const srcRoot = findRoot(files);
-  await Promise.all(files.map(relative => denocFile(root, srcRoot, relative, config)));
+  await Promise.all([
+    copyFiles(root, config),
+    ...files.map(relative => denocFile(root, srcRoot, relative, config))
+  ]);
 }
 
 async function main() {
