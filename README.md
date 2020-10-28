@@ -29,7 +29,8 @@ Add a `denoc` field to your `package.json`:
 | `include` | Array of files/dirs/globs of sources |
 | `exclude`  | Array of files/dirs/globs that negates `include`. Import statements for these files will be ignored unless mapped to another file (see [dependency mapping](#dependency-mapping)) |
 | `files` | Array of source files (use as an alternative for `include`/`exclude`) |
-| `skip` | Array of package names of dependencies that will be skipped altogether (for example modules exporting objects available in the Deno global scope) |
+| `allow` | Array of dependencies that will be forwarded (for example dependencies used in a mapped alternative local source file) |
+| `skip` | Array of dependencies that will be skipped (for example modules exporting objects available in the Deno global scope) |
 | `map` | Dependency mapping (see [dependency mapping](#dependency-mapping)) | 
 | `copy` | Array of files to copy to `outDir` |
 

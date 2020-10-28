@@ -13,6 +13,7 @@
     "outDir": "deno_dist",
     "include": ["src"],
     "exclude": ["src/ignored.ts"],
+    "allow": ["https://deno.land/x/lodash@4.17.19/lodash.js"],
     "skip": ["inspector"],
     "map": {
       "os": "https://deno.land/std@0.74.0/node/os.ts",
