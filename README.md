@@ -15,12 +15,12 @@ Add a `denoc` field to your `package.json`:
   "skip": ["node-only-module"],
   "map": {
     "os": "https://deno.land/std@0.74.0/node/os.ts",
-    "src/node1.ts": "src/deno1.ts"
+    "src/node1.ts": "src/deno1.ts",
     "src/node2.ts": "https://deno.land/x/deno2.ts",
-    "crypto": "src/deno_crypto.ts",
+    "crypto": "src/deno_crypto.ts"
   },
-  "copy": ["README.md"],
-},
+  "copy": ["README.md"]
+}
 ```
 
 | Field | Description |
