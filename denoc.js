@@ -41,7 +41,7 @@ function mapDependency(id, map, relative) {
   return `./${path.relative(path.dirname(relative), map[id])}`;
 }
 
-function reduceLine(match, relative, { exclude, allow = [], skip = [], map }) {
+function reduceLine(srcFile, match, relative, { exclude, allow = [], skip = [], map }) {
   const [prefix, id, suffix] = match;
   if (id.startsWith('.')) {
     const file = path.join(path.dirname(relative), `${id}.ts`);
@@ -58,7 +58,7 @@ function reduceLine(match, relative, { exclude, allow = [], skip = [], map }) {
   } else if (map[id]) {
     return `${prefix}${mapDependency(id, map, relative)}${suffix}`;
   }
-  throw new Error(`Unhandled dependency '${id}', add to "skip" or "map".`);
+  throw new Error(`Unhandled dependency '${id}' in '${srcFile}', add to "skip" or "map".`);
 }
 
 async function copyFiles (root, config) {
@@ -78,7 +78,7 @@ async function denocFile (root, srcRoot, relative, config) {
   const dstFile = path.join(root, config.outDir, path.relative(srcRoot, relative));
   const src = await fs.readFile(srcFile, 'utf-8');
   const importRegExp = /(import[^'"]*['"])(.*)(['"];\n)/g;
-  const dst = src.replace(importRegExp, (_, ...p) => reduceLine(p, relative, config));
+  const dst = src.replace(importRegExp, (_, ...p) => reduceLine(srcFile, p, relative, config));
   await fs.mkdir(path.dirname(dstFile), { recursive: true });
   await fs.writeFile(dstFile, dst);
 }
