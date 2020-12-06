@@ -41,7 +41,7 @@ function mapDependency(id, map, relative) {
   return `./${path.relative(path.dirname(relative), map[id])}`;
 }
 
-function reduceLine(srcFile, match, relative, { exclude, allow = [], skip = [], map }) {
+function reduceLine(srcFile, match, relative, { exclude, allow = [], skip = [], map = {} }) {
   const [prefix, id, suffix] = match;
   if (id.startsWith('.')) {
     const file = path.join(path.dirname(relative), `${id}.ts`);
