@@ -77,7 +77,7 @@ async function denocFile (root, srcRoot, relative, config) {
   const srcFile = path.join(root, relative);
   const dstFile = path.join(root, config.outDir, path.relative(srcRoot, relative));
   const src = await fs.readFile(srcFile, 'utf-8');
-  const importRegExp = /(import[^'"]*['"])(.*)(['"];\n)/g;
+  const importRegExp = /((?:^|\n)(?:im|ex)port\s[\w\s{}]*['"])(.*)(['"];\n)/g;
   const dst = src.replace(importRegExp, (_, ...p) => reduceLine(srcFile, p, relative, config));
   await fs.mkdir(path.dirname(dstFile), { recursive: true });
   await fs.writeFile(dstFile, dst);
