@@ -8,8 +8,10 @@ import {
 import 'inspector';
 import 'path';
 
+const assert: typeof ok = ok;
+
 deepStrictEqual(atob(btoa(os.platform())), os.platform());
 
 const env = nodeOrDeno();
-ok(env === 'node' || env === 'deno');
+assert(env === 'node' || env === 'deno');
 console.log('ok from', env);

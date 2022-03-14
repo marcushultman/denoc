@@ -11,15 +11,14 @@
   "license": "ISC",
   "denoc": {
     "outDir": "deno_dist",
-    "include": ["src"],
-    "exclude": ["src/ignored.ts"],
-    "allow": ["https://deno.land/x/lodash@4.17.19/lodash.js"],
-    "skip": ["inspector"],
-    "map": {
-      "os": "https://deno.land/std@0.74.0/node/os.ts",
-      "assert": "https://deno.land/std@0.74.0/node/assert.ts",
-      "src/node.ts": "src/deno.ts",
-      "path": "src/path_deno.ts"
+    "main": "src/test.ts",
+    "dependencies": {
+      "os": "https://deno.land/std@0.129.0/node/os.ts",
+      "assert": "https://deno.land/std@0.129.0/node/assert.ts",
+      "inspector": null,
+      "src/ignored.ts": null,
+      "src/node.ts": "./src/deno.ts",
+      "path": "./src/path_deno.ts"
     },
     "copy": ["README.md"]
   }
